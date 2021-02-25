@@ -23,7 +23,9 @@ class LargeInt:
     # a.add(b)
     def add( self, b ):
         # ensure |a| > |b|
-        a, b = (self, b)  if len(self.str_int) > len(b.str_int) else  (b, self)
+        a, b = (self, b)  if len(self.str_int) > len(b.str_int) or \
+                          len(self.str_int) == len(b.str_int) and  \
+                              self.str_int > b.str_int else  (b, self)
         # init output array with reversed 'a' digits (extra zero for final carry)
         result_list = [d  for d in a.str_int[::-1]] + [0]
 
@@ -51,7 +53,8 @@ for a,b,c in zip(A, B, C):
     a = LargeInt(a)
     b = LargeInt(b)
     a_plus_b = a.add(b)
-    print(f"{a_plus_b} = {a} + {b}")
+    b_plus_a = b.add(a)
+    print(f"{a_plus_b} = {a} + {b} = {b_plus_a}")
     print(c)
-    assert(str(a_plus_b) == c)
+    assert(str(a_plus_b) == c and str(b_plus_a) == c)
     print()
